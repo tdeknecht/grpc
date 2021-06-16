@@ -1,0 +1,48 @@
+// apt install protobuf-compiler (https://grpc.io/docs/protoc-installation/)
+
+// go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+// go install google.golang.org/protobuf/cmd/protoc-gen-go
+
+// go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+// go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+// protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative users.proto
+syntax = "proto3";
+
+package users;
+option go_package = ".;users";
+
+// Users Service
+service Users {
+  // GetUsers
+  rpc GetUsers(GetUsersReq) returns (GetUsersRes) {};
+}
+
+// The request message for GetUsers
+message GetUsersReq {
+  UserStatus status = 1;
+}
+
+// The response message for GetUsers
+message GetUsersRes {
+  repeated User users = 1;
+}
+
+// The message for a user record
+message User {
+  string name = 1;
+  string last_name = 2;
+  int64 age = 3;
+  string email = 4;
+  string status = 5;
+}
+
+// UserStatus enum for users
+enum UserStatus {
+  option allow_alias = true;
+  USER_STATUS_UNKNOWN = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_SUSPENDED = 2;
+  USER_STATUS_BLOCKED = 3;
+  USER_STATUS_IGNORED = 3;
+}
